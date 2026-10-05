@@ -1,0 +1,21 @@
+:root {
+  --color-background: #f6f7fb;
+  --color-surface: #ffffff;
+  --color-text: #172033;
+  --color-text-muted: #667085;
+  --color-border: #dfe3eb;
+  --color-primary: #3659c9;
+  --color-primary-soft: #edf1ff;
+
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --shadow-sm: 0 0.25rem 1rem rgb(23 32 51 / 8%);
+  --content-width: 75rem;
+}
