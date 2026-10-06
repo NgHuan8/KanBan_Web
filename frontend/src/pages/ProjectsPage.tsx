@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { Link } from 'react-router'
+import { CreateProjectModal } from '../features/projects/components/CreateProjectModal'
 import styles from './ProjectsPage.module.css'
 
 interface ProjectSummary {
@@ -37,59 +39,71 @@ const projects: readonly ProjectSummary[] = [
 ]
 
 export function ProjectsPage() {
+  const [isCreateProjectOpen, setIsCreateProjectOpen] = useState(false)
+
   return (
-    <section className={styles.page} aria-labelledby="projects-title">
-      <header className={styles.pageHeader}>
-        <div className={styles.headingGroup}>
-          <p className={styles.eyebrow}>Kanban Collaboration</p>
-          <h1 id="projects-title">Projects</h1>
-          <p className={styles.intro}>
-            Chọn một project để xem board và tiếp tục công việc cùng nhóm.
-          </p>
-        </div>
+    <>
+      <section className={styles.page} aria-labelledby="projects-title">
+        <header className={styles.pageHeader}>
+          <div className={styles.headingGroup}>
+            <p className={styles.eyebrow}>Kanban Collaboration</p>
+            <h1 id="projects-title">Projects</h1>
+            <p className={styles.intro}>
+              Chọn một project để xem board và tiếp tục công việc cùng nhóm.
+            </p>
+          </div>
 
-        <button className={styles.createButton} type="button">
-          <span aria-hidden="true">+</span>
-          Create project
-        </button>
-      </header>
+          <button
+            className={styles.createButton}
+            onClick={() => setIsCreateProjectOpen(true)}
+            type="button"
+          >
+            <span aria-hidden="true">+</span>
+            Create project
+          </button>
+        </header>
 
-      {projects.length > 0 ? (
-        <div className={styles.projectGrid} aria-label="Danh sách project">
-          {projects.map((project) => (
-            <article className={styles.projectCard} key={project.id}>
-              <div>
-                <h2>{project.name}</h2>
-                <p className={styles.description}>{project.description}</p>
-              </div>
-
-              <div className={styles.cardFooter}>
-                <div className={styles.projectMeta}>
-                  <span>
-                    {project.memberCount}{' '}
-                    {project.memberCount === 1 ? 'member' : 'members'}
-                  </span>
-                  <span aria-hidden="true">·</span>
-                  <span>{project.updatedLabel}</span>
+        {projects.length > 0 ? (
+          <div className={styles.projectGrid} aria-label="Danh sách project">
+            {projects.map((project) => (
+              <article className={styles.projectCard} key={project.id}>
+                <div>
+                  <h2>{project.name}</h2>
+                  <p className={styles.description}>{project.description}</p>
                 </div>
 
-                <Link
-                  className={styles.boardLink}
-                  to={`/projects/${project.id}/board`}
-                >
-                  Open board
-                  <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </article>
-          ))}
-        </div>
-      ) : (
-        <div className={styles.emptyState} role="status">
-          <h2>Chưa có project</h2>
-          <p>Các project bạn tham gia sẽ xuất hiện tại đây.</p>
-        </div>
-      )}
-    </section>
+                <div className={styles.cardFooter}>
+                  <div className={styles.projectMeta}>
+                    <span>
+                      {project.memberCount}{' '}
+                      {project.memberCount === 1 ? 'member' : 'members'}
+                    </span>
+                    <span aria-hidden="true">·</span>
+                    <span>{project.updatedLabel}</span>
+                  </div>
+
+                  <Link
+                    className={styles.boardLink}
+                    to={`/projects/${project.id}/board`}
+                  >
+                    Open board
+                    <span aria-hidden="true">→</span>
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className={styles.emptyState} role="status">
+            <h2>Chưa có project</h2>
+            <p>Các project bạn tham gia sẽ xuất hiện tại đây.</p>
+          </div>
+        )}
+      </section>
+
+      {isCreateProjectOpen ? (
+        <CreateProjectModal onClose={() => setIsCreateProjectOpen(false)} />
+      ) : null}
+    </>
   )
 }
